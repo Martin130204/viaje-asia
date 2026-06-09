@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1330,17 +1331,36 @@ footer span{color:var(--gold);}
     },
 
     // RATINGS
-    saveRating: async function(place, value) {
+    saveRating: async function(place, value, uid) {
       try {
-        await setDoc(doc(db, 'ratings', place), { value: value, ts: serverTimestamp() });
+        await setDoc(doc(db, 'ratings', uid, 'places', place), { value: value, uid: uid, ts: serverTimestamp() });
       } catch(e) { console.error('saveRating:', e); }
     },
     listenRatings: function(cb) {
+      // Listen to all users' ratings
       return onSnapshot(collection(db, 'ratings'), snap => {
-        var ratings = {};
-        snap.docs.forEach(d => { ratings[d.id] = d.data().value; });
-        cb(ratings);
+        var allRatings = {}; // { place: { uid: value } }
+        // This snapshot gives us user docs - we need subcollections
+        // Instead listen to a flat collection ratings_flat
+        cb(allRatings);
       }, err => console.error('listenRatings:', err));
+    },
+    listenAllRatings: function(cb) {
+      // Flat collection: ratingsFlat/{uid_place} = {uid, place, value}
+      return onSnapshot(collection(db, 'ratingsFlat'), snap => {
+        var all = {}; // { place: { uid: value } }
+        snap.docs.forEach(d => {
+          var data = d.data();
+          if(!all[data.place]) all[data.place] = {};
+          all[data.place][data.uid] = { value: data.value, name: data.name || data.uid };
+        });
+        cb(all);
+      }, err => console.error('listenAllRatings:', err));
+    },
+    saveRatingFlat: async function(place, value, uid, name) {
+      try {
+        await setDoc(doc(db, 'ratingsFlat', uid+'_'+place), { uid: uid, place: place, value: value, name: name, ts: serverTimestamp() });
+      } catch(e) { console.error('saveRatingFlat:', e); }
     },
 
     // CHECKLIST
@@ -1704,6 +1724,7 @@ document.addEventListener('keydown',function(e){
 // ── HALF-STAR RATINGS ──
 var RATINGS_KEY='asia_trip_ratings_v2';
 var _fbRatings={};
+var _fbAllRatings={};
 function starsDisplay(val){
   var s='';
   for(var i=1;i<=5;i++){s+=val>=i?'★':val>=i-0.5?'½':'☆';}
@@ -1760,32 +1781,75 @@ var PLACES=[
 ];
 PLACES.forEach(function(p){renderStars(p.id,{});});
 document.addEventListener('firebase-ready',function(){
-  window._fb.listenRatings(function(ratings){
-    _fbRatings=ratings;
-    PLACES.forEach(function(p){renderStars(p.id,ratings);});
-    var modal=document.getElementById('scores-modal');
-    if(modal && modal.classList.contains('open')) openScores();
-  });
+  if(window._fb.listenAllRatings){
+    window._fb.listenAllRatings(function(allRatings){
+      _fbAllRatings=allRatings;
+      // Build my own ratings for star display
+      var myUid=window._currentUser?window._currentUser.uid:'';
+      _fbRatings={};
+      PLACES.forEach(function(p){
+        if(allRatings[p.id]&&allRatings[p.id][myUid]) _fbRatings[p.id]=allRatings[p.id][myUid].value;
+      });
+      PLACES.forEach(function(p){renderStars(p.id,_fbRatings);});
+      var modal=document.getElementById('scores-modal');
+      if(modal && modal.classList.contains('open')) openScores();
+    });
+  }
 });
 
 // ── SCORES MODAL ──
 function openScores(){
   var list=document.getElementById('scores-list');
-  var rated=PLACES.filter(function(p){return _fbRatings[p.id];});
-  if(rated.length===0){
-    list.innerHTML='<div class="scores-empty">A\u00FAn no hay puntuaciones.<br>\u00A1S\u00E9 el primero en puntuar! \u2B50</div>';
-  } else {
-    var sorted=[...rated].sort(function(a,b){return (_fbRatings[b.id]||0)-(_fbRatings[a.id]||0);});
-    list.innerHTML=sorted.map(function(p,rank){
-      var r=_fbRatings[p.id]||0;
-      var medal=rank===0?'\uD83E\uDD47':rank===1?'\uD83E\uDD48':rank===2?'\uD83E\uDD49':'';
-      return '<div class="score-row"><div><div class="score-place">'+medal+' '+p.place+'</div><div class="score-country">'+p.country+'</div></div><div style="display:flex;align-items:center;gap:.4rem"><div style="color:var(--gold);font-size:.95rem">'+starsDisplay(r)+'</div><div style="font-size:.8rem;color:rgba(0,0,0,.4)">'+r+'/5</div></div></div>';
+  document.getElementById('scores-modal').querySelector('h3').textContent='Puntuaciones del grupo';
+
+  // Calculate group average per place
+  var hasAny=false;
+  var allPlacesHTML=PLACES.map(function(p){
+    var placeRatings=_fbAllRatings[p.id]||{};
+    var members=Object.values(placeRatings);
+    var rated=members.filter(function(m){return m.value>0;});
+    if(rated.length>0) hasAny=true;
+    var avg=rated.length>0?(rated.reduce(function(s,m){return s+m.value;},0)/rated.length):0;
+    var avgRounded=Math.round(avg*10)/10;
+
+    var memberRows=rated.map(function(m){
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:.2rem 0;font-size:.78rem;color:rgba(0,0,0,.55);">'+
+        '<span>'+escHtml(m.name||'?')+'</span>'+
+        '<span style="color:var(--gold);">'+starsDisplay(m.value)+'</span>'+
+      '</div>';
     }).join('');
-    var unrated=PLACES.filter(function(p){return !_fbRatings[p.id];});
-    if(unrated.length>0){
-      list.innerHTML+='<div style="margin-top:1.2rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.3);margin-bottom:.6rem;">Pendientes</div>';
-      list.innerHTML+=unrated.map(function(p){return '<div class="score-row"><div><div class="score-place" style="opacity:.45">'+p.place+'</div><div class="score-country">'+p.country+'</div></div><div style="color:#ddd;font-size:.95rem">\u2606\u2606\u2606\u2606\u2606</div></div>';}).join('');
-    }
+
+    var avgDisplay=avg>0?
+      '<div style="display:flex;align-items:center;gap:.5rem;">'+
+        '<span style="color:var(--gold);font-size:1.05rem;">'+starsDisplay(Math.round(avg))+'</span>'+
+        '<span style="font-size:.85rem;font-weight:700;color:var(--ink);">'+avgRounded+'/5</span>'+
+        '<span style="font-size:.72rem;color:rgba(0,0,0,.35);">('+rated.length+' voto'+( rated.length!==1?'s':'')+')</span>'+
+      '</div>':
+      '<span style="color:#ddd;font-size:.95rem;">☆☆☆☆☆</span>';
+
+    return '<div style="background:var(--sand);border-radius:14px;padding:.9rem 1.1rem;margin-bottom:.7rem;">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+( rated.length?'.5rem':'0')+';">'+
+        '<div><div style="font-weight:600;font-size:.9rem;color:var(--ink);">'+p.place+'</div><div style="font-size:.7rem;color:rgba(0,0,0,.35);">'+p.country+'</div></div>'+
+        avgDisplay+
+      '</div>'+
+      (memberRows?'<div style="border-top:1px solid rgba(0,0,0,.07);padding-top:.4rem;margin-top:.2rem;">'+memberRows+'</div>':'')+
+    '</div>';
+  });
+
+  if(!hasAny){
+    list.innerHTML='<div class="scores-empty">Aún no hay puntuaciones.<br>¡Sé el primero en puntuar!</div>';
+  } else {
+    // Sort by avg descending, unrated at bottom
+    var rated2=PLACES.filter(function(p){return Object.values(_fbAllRatings[p.id]||{}).some(function(m){return m.value>0;});});
+    var unrated2=PLACES.filter(function(p){return !Object.values(_fbAllRatings[p.id]||{}).some(function(m){return m.value>0;});});
+    var sorted2=[...rated2].sort(function(a,b){
+      var avgA=Object.values(_fbAllRatings[a.id]||{}).reduce(function(s,m){return s+m.value;},0)/(Object.values(_fbAllRatings[a.id]||{}).length||1);
+      var avgB=Object.values(_fbAllRatings[b.id]||{}).reduce(function(s,m){return s+m.value;},0)/(Object.values(_fbAllRatings[b.id]||{}).length||1);
+      return avgB-avgA;
+    });
+    list.innerHTML=[...sorted2,...unrated2].map(function(p){
+      return allPlacesHTML[PLACES.findIndex(function(pl){return pl.id===p.id;})];
+    }).join('');
   }
   document.getElementById('scores-modal').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1797,10 +1861,14 @@ function closeScores(e){
   }
 }
 function resetRatings(){
-  if(!confirm('\u00BFRestablecer TODAS las puntuaciones del grupo?')) return;
-  PLACES.forEach(function(p){if(window._fb) window._fb.saveRating(p.id,0);});
-  _fbRatings={};
-  PLACES.forEach(function(p){renderStars(p.id,{});});
+  if(!window._currentUser){alert('Inicia sesión');return;}
+  if(!confirm('¿Restablecer TUS puntuaciones?')) return;
+  var uid=window._currentUser.uid;
+  PLACES.forEach(function(p){
+    if(window._fb&&window._fb.saveRatingFlat) window._fb.saveRatingFlat(p.id,0,uid,'');
+    _fbRatings[p.id]=0;
+  });
+  PLACES.forEach(function(p){renderStars(p.id,_fbRatings);});
   openScores();
 }
 
