@@ -1142,7 +1142,14 @@ footer span{color:var(--gold);}
   <p class="sec-label">La aventura completa</p>
   <h2 class="sec-title">Ruta del viaje</h2>
   <div id="travel-map"></div>
+  <div class="map-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--bali);"></div>Bali · Indonesia</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--thai);"></div>Tailandia</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--japan);"></div>Japón</div>
+    <div class="legend-item"><div class="legend-line"></div>Ruta del viaje</div>
+    <div class="legend-item" style="margin-left:auto;font-size:.72rem;color:rgba(0,0,0,.3);">Haz clic en cada ciudad para ver las fechas</div>
   </div>
+</div>
 
 <!-- ALOJAMIENTOS -->
 <div class="sw" id="alojamientos">
@@ -1645,12 +1652,17 @@ footer span{color:var(--gold);}
 
 <!-- Leaflet CSS scope fix -->
 <style>
-#travel-map{width:100%;height:480px;border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.18);}
+#travel-map{width:100%;height:500px;border-radius:18px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.18);border:1px solid rgba(0,0,0,.07);}
 #travel-map img{max-width:none!important;box-shadow:none!important;border:none!important;}
-.map-tooltip-custom{background:rgba(26,20,16,.9)!important;border:1px solid rgba(212,168,83,.5)!important;color:#fff!important;font-family:"DM Sans",sans-serif!important;font-size:11px!important;font-weight:600!important;padding:3px 8px!important;border-radius:6px!important;white-space:nowrap!important;box-shadow:0 2px 8px rgba(0,0,0,.4)!important;}
-.map-tooltip-custom.leaflet-tooltip-top::before{border-top-color:rgba(26,20,16,.9)!important;}
-.leaflet-popup-content-wrapper{border-radius:12px!important;}
-.leaflet-popup-content{font-family:"DM Sans",sans-serif!important;margin:10px 14px!important;}
+.map-tooltip-custom{background:rgba(26,20,16,.92)!important;border:1px solid rgba(212,168,83,.5)!important;color:#fff!important;font-family:"DM Sans",sans-serif!important;font-size:11px!important;font-weight:600!important;padding:3px 9px!important;border-radius:7px!important;white-space:nowrap!important;box-shadow:0 2px 10px rgba(0,0,0,.35)!important;letter-spacing:.03em!important;}
+.map-tooltip-custom.leaflet-tooltip-top::before{border-top-color:rgba(26,20,16,.92)!important;}
+.map-popup-custom .leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 8px 30px rgba(0,0,0,.18)!important;border:1px solid rgba(0,0,0,.07)!important;padding:0!important;}
+.map-popup-custom .leaflet-popup-content{margin:12px 16px!important;font-family:"DM Sans",sans-serif!important;}
+.map-popup-custom .leaflet-popup-tip{background:#fff!important;}
+.map-legend{display:flex;flex-wrap:wrap;gap:1.2rem;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:rgba(26,20,16,.6);}
+.legend-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.legend-line{width:24px;height:2px;border-top:2px dashed rgba(212,168,83,.85);flex-shrink:0;}
 </style>
 <script>
 // ── COUNTDOWN ──
@@ -1764,8 +1776,13 @@ function hoverStars(id,val){
 function setRating(id,val){
   _fbRatings[id]=val;
   renderStars(id);
-  if(window._fb && window._fb.saveRating) window._fb.saveRating(id,val);
-  else { try{var r=JSON.parse(localStorage.getItem(RATINGS_KEY)||'{}');r[id]=val;localStorage.setItem(RATINGS_KEY,JSON.stringify(r));}catch(e){} }
+  if(window._currentUser && window._fb && window._fb.saveRatingFlat){
+    var uid=window._currentUser.uid;
+    var name=(window._initProfile&&window._initProfile.displayName)||window._currentUser.email.split('@')[0];
+    window._fb.saveRatingFlat(id,val,uid,name);
+  } else {
+    try{var r=JSON.parse(localStorage.getItem(RATINGS_KEY)||'{}');r[id]=val;localStorage.setItem(RATINGS_KEY,JSON.stringify(r));}catch(e){}
+  }
 }
 var PLACES=[
   {id:'canggu',   place:'Canggu',        country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
@@ -2843,47 +2860,135 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 
 // ── MAPA ──
-var mapInitialized=false;
+var mapInitialized = false;
+var _leafletMap = null;
+
+var STOPS = [
+  {name:'Bali',       label:'Bali',         country:'Indonesia',    dates:'28 Dic – 5 Ene',  lat:-8.40,  lng:115.19, color:'#d4783a', r:9,  num:1},
+  {name:'Bangkok',    label:'Bangkok',       country:'Tailandia',    dates:'5 – 7 Ene',       lat:13.75,  lng:100.50, color:'#8b1a3a', r:7,  num:2},
+  {name:'Chiang Mai', label:'Chiang Mai',    country:'Tailandia',    dates:'8 – 11 Ene',      lat:18.79,  lng:98.98,  color:'#8b1a3a', r:7,  num:3},
+  {name:'Phuket',     label:'Phuket',        country:'Tailandia',    dates:'11 – 14 Ene',     lat:7.90,   lng:98.30,  color:'#8b1a3a', r:7,  num:4},
+  {name:'Krabi',      label:'Krabi',         country:'Tailandia',    dates:'14 – 19 Ene',     lat:8.09,   lng:98.91,  color:'#8b1a3a', r:7,  num:5},
+  {name:'Osaka',      label:'Osaka',         country:'Japón',        dates:'19 – 22 Ene',     lat:34.69,  lng:135.50, color:'#c8293a', r:7,  num:6},
+  {name:'Kyoto',      label:'Kyoto',         country:'Japón',        dates:'22 – 25 Ene',     lat:35.01,  lng:135.77, color:'#c8293a', r:6,  num:7},
+  {name:'Tokyo',      label:'Tokyo',         country:'Japón',        dates:'25 Ene – 1 Feb',  lat:35.68,  lng:139.69, color:'#c8293a', r:9,  num:8},
+];
+
 function initTravelMap(){
   if(mapInitialized) return;
-  var el=document.getElementById('travel-map');
-  if(!el||typeof L==='undefined') return;
-  mapInitialized=true;
-  var map=L.map('travel-map',{center:[15,115],zoom:4,zoomControl:true,scrollWheelZoom:false});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{attribution:'\u00A9 OSM \u00A9 CARTO',subdomains:'abcd',maxZoom:10,minZoom:2}).addTo(map);
-  var stops=[
-    {name:'Santiago de Chile',country:'Chile',dates:'Salida: 26 Dic 2026',lat:-33.45,lng:-70.67,color:'#777',r:6},
-    {name:'Bali',country:'Indonesia',dates:'28 Dic \u2013 5 Ene',lat:-8.40,lng:115.19,color:'#d4783a',r:8},
-    {name:'Bangkok',country:'Tailandia',dates:'5 \u2013 7 Ene',lat:13.75,lng:100.50,color:'#8b1a3a',r:7},
-    {name:'Chiang Mai',country:'Tailandia',dates:'8 \u2013 11 Ene',lat:18.79,lng:98.98,color:'#8b1a3a',r:7},
-    {name:'Phuket',country:'Tailandia',dates:'11 \u2013 14 Ene',lat:7.90,lng:98.30,color:'#8b1a3a',r:7},
-    {name:'Krabi',country:'Tailandia',dates:'14 \u2013 19 Ene',lat:8.09,lng:98.91,color:'#8b1a3a',r:7},
-    {name:'Osaka',country:'Jap\u00F3n',dates:'19 \u2013 22 Ene',lat:34.69,lng:135.50,color:'#c8293a',r:7},
-    {name:'Kyoto',country:'Jap\u00F3n',dates:'22 \u2013 25 Ene',lat:35.01,lng:135.77,color:'#c8293a',r:6},
-    {name:'Tokyo',country:'Jap\u00F3n',dates:'25 Ene \u2013 1 Feb',lat:35.68,lng:139.69,color:'#c8293a',r:8},
-  ];
-  var coords=stops.map(function(s){return[s.lat,s.lng];});
-  coords.push([-33.45,-70.67]);
-  L.polyline(coords,{color:'#d4a853',weight:6,opacity:.12}).addTo(map);
-  L.polyline(coords,{color:'#d4a853',weight:2,opacity:.85,dashArray:'8 6'}).addTo(map);
-  stops.forEach(function(s){
-    var icon=L.divIcon({className:'',html:'<div style="width:'+(s.r*2+6)+'px;height:'+(s.r*2+6)+'px;background:'+s.color+';border-radius:50%;border:3px solid rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 0 '+(s.r+4)+'px '+s.color+'22;"></div>',iconSize:[s.r*2+6,s.r*2+6],iconAnchor:[s.r+3,s.r+3]});
-    var marker=L.marker([s.lat,s.lng],{icon:icon}).addTo(map);
-    marker.bindPopup('<div style="font-family:\'DM Sans\',sans-serif"><b>'+s.name+'</b><br><span style="color:#888;font-size:.78rem">'+s.country+'</span><br><span style="color:#c8502a;font-size:.78rem;font-weight:600">\uD83D\uDCC5 '+s.dates+'</span></div>',{maxWidth:200});
-    marker.bindTooltip(s.name,{permanent:true,direction:'top',offset:[0,-(s.r+8)],className:'map-tooltip-custom',opacity:1});
+  var el = document.getElementById('travel-map');
+  if(!el) return;
+  // Wait for Leaflet to be available, retry up to 20 times
+  if(typeof L === 'undefined'){
+    var attempts = 0;
+    var tryInit = setInterval(function(){
+      attempts++;
+      if(typeof L !== 'undefined'){ clearInterval(tryInit); initTravelMap(); }
+      else if(attempts > 20) clearInterval(tryInit);
+    }, 200);
+    return;
+  }
+  mapInitialized = true;
+
+  // Tile layer oscuro (CartoDB Dark Matter) que combina con el diseño
+  var map = L.map('travel-map', {
+    center: [18, 118],
+    zoom: 4,
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: true
   });
-  map.fitBounds(L.latLngBounds(stops.map(function(s){return[s.lat,s.lng];})),{padding:[40,40]});
+  _leafletMap = map;
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://openstreetmap.org">OSM</a> &copy; <a href="https://carto.com">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 14,
+    minZoom: 2
+  }).addTo(map);
+
+  // Ruta: solo paradas en Asia (sin Santiago para no deformar el zoom)
+  var coords = STOPS.map(function(s){ return [s.lat, s.lng]; });
+
+  // Línea de ruta — sombra gruesa semitransparente + línea dorada encima
+  L.polyline(coords, {color:'#d4a853', weight:8, opacity:0.10}).addTo(map);
+  L.polyline(coords, {color:'#d4a853', weight:2.5, opacity:0.9, dashArray:'10 7'}).addTo(map);
+
+  // Marcadores con número de parada
+  STOPS.forEach(function(s){
+    var size = s.r * 2 + 10;
+    var html =
+      '<div style="'+
+        'width:'+size+'px;height:'+size+'px;'+
+        'background:'+s.color+';'+
+        'border-radius:50%;'+
+        'border:3px solid rgba(255,255,255,.95);'+
+        'box-shadow:0 2px 10px rgba(0,0,0,.45), 0 0 0 '+(s.r+3)+'px '+s.color+'28;'+
+        'display:flex;align-items:center;justify-content:center;'+
+        'font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;color:#fff;'+
+      '">'+s.num+'</div>';
+
+    var icon = L.divIcon({
+      className: '',
+      html: html,
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2]
+    });
+
+    var marker = L.marker([s.lat, s.lng], {icon: icon}).addTo(map);
+
+    marker.bindPopup(
+      '<div style="font-family:\'DM Sans\',sans-serif;min-width:160px;">'+
+        '<div style="font-weight:700;font-size:.97rem;color:#1a1410;margin-bottom:.15rem;">'+s.name+'</div>'+
+        '<div style="font-size:.72rem;color:#888;margin-bottom:.3rem;">'+s.country+'</div>'+
+        '<div style="display:inline-block;background:'+s.color+'1a;color:'+s.color+';border-radius:6px;padding:.18rem .55rem;font-size:.75rem;font-weight:600;">'+s.dates+'</div>'+
+      '</div>',
+      {maxWidth: 220, className: 'map-popup-custom'}
+    );
+
+    marker.bindTooltip(s.label, {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -(size/2 + 4)],
+      className: 'map-tooltip-custom',
+      opacity: 1
+    });
+  });
+
+  // Ajustar vista solo a las paradas en Asia
+  var bounds = L.latLngBounds(STOPS.map(function(s){ return [s.lat, s.lng]; }));
+  map.fitBounds(bounds, {padding: [50, 50]});
+
+  // Forzar redibujado (fix tamaño si estaba oculto al iniciar)
+  setTimeout(function(){ map.invalidateSize(); }, 300);
 }
-var mapObs=new IntersectionObserver(function(entries){if(entries[0].isIntersecting){setTimeout(initTravelMap,100);mapObs.disconnect();}},{threshold:.1});
-var mapDiv=document.getElementById('travel-map');
-if(mapDiv) mapObs.observe(mapDiv);
+
+// Observador de intersección — inicia el mapa cuando es visible
+(function(){
+  var mapDiv = document.getElementById('travel-map');
+  if(!mapDiv) return;
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ obs.disconnect(); setTimeout(initTravelMap, 150); }
+    }, {threshold: 0.05});
+    obs.observe(mapDiv);
+  } else {
+    // Fallback sin IntersectionObserver
+    setTimeout(initTravelMap, 800);
+  }
+})();
 
 // ── NAV ──
 function goTo(id,btn){
   document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
   document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  if(id==='mapa') setTimeout(initTravelMap,300);
+  if(id==='mapa'){
+    setTimeout(function(){
+      initTravelMap();
+      if(_leafletMap) _leafletMap.invalidateSize();
+    }, 350);
+  }
 }
 var NAV_IDS=['resumen','destinos','itinerario','vuelos','mapa','alojamientos','diario'];
 var navObs=new IntersectionObserver(function(entries){
