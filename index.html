@@ -844,6 +844,7 @@ footer span{color:var(--gold);}
   <button class="nav-btn" onclick="goTo('vuelos',this)">Vuelos</button>
   <button class="nav-btn" onclick="goTo('mapa',this)">Mapa</button>
   <button class="nav-btn" onclick="goTo('alojamientos',this)">Alojamientos</button>
+  <button class="nav-btn" onclick="goTo('preparacion',this)" id="nav-prep-btn" style="display:none;">Preparacion</button>
   <button class="nav-btn" onclick="goTo('diario',this)">Diario</button>
 </nav>
 
@@ -1066,17 +1067,39 @@ footer span{color:var(--gold);}
         <div class="zone-card">
           <div class="zone-img-wrap"><img class="zone-img" src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&q=80" alt="Kyoto" onclick="openLb(this.src,'Fushimi Inari, Kyoto')"><div class="zoom-hint">Ver foto</div></div>
           <div class="zone-body">
-            <div class="zone-name">Kyoto + Nara</div><div class="zone-dates">22 – 25 Enero</div>
-            <ul class="zone-acts"><li>Higashiyama + Kiyomizudera</li><li>5:30am Fushimi Inari</li><li>Arashiyama + bambú + Tenryu-ji</li><li>Kinkakuji · Ryoan-ji</li><li>Daytrip Nara: ciervos · Todai-ji</li></ul>
-            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-kyoto" data-place="Kyoto + Nara" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-kyoto"></div></div>
+            <div class="zone-name">Kyoto</div><div class="zone-dates">22 – 25 Enero</div>
+            <ul class="zone-acts"><li>Higashiyama + Kiyomizudera</li><li>5:30am Fushimi Inari</li><li>Arashiyama + bambú + Tenryu-ji</li><li>Kinkakuji · Ryoan-ji</li></ul>
+            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-kyoto" data-place="Kyoto" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-kyoto"></div></div>
+          </div>
+        </div>
+        <div class="zone-card">
+          <div class="zone-img-wrap"><img class="zone-img"
+            src="https://images.unsplash.com/photo-1576675784201-0e142b423952?w=600&q=80&auto=format&fit=crop"
+            onerror="this.src='https://images.unsplash.com/photo-1508575145019-b5cc2d17e9e9?w=600&q=80&auto=format&fit=crop'"
+            alt="Nara" loading="lazy" onclick="openLb(this.src,'Ciervos de Nara')"><div class="zoom-hint">Ver foto</div></div>
+          <div class="zone-body">
+            <div class="zone-name">Nara</div><div class="zone-dates">Daytrip desde Kyoto</div>
+            <ul class="zone-acts"><li>Ciervos sagrados del parque</li><li>Todai-ji · Gran Buda de bronce</li><li>Kasuga Taisha · linternas de piedra</li><li>Naramachi · barrio histórico</li></ul>
+            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-nara" data-place="Nara" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-nara"></div></div>
           </div>
         </div>
         <div class="zone-card">
           <div class="zone-img-wrap"><img class="zone-img" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80" alt="Tokyo" onclick="openLb(this.src,'Tokyo de noche')"><div class="zoom-hint">Ver foto</div></div>
           <div class="zone-body">
-            <div class="zone-name">Tokyo + Nagano</div><div class="zone-dates">25 – 31 Enero</div>
-            <ul class="zone-acts"><li>Senso-ji · Akihabara</li><li>Mario Kart callejero</li><li>Tsukiji · Harajuku · café nutrias</li><li>Meiji Jingu · Shibuya · Odaiba + Gundam</li><li>Daytrip Nagano: monos en onsen</li><li>Mt. Fuji · Observatorio TMG</li></ul>
-            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-tokyo" data-place="Tokyo + Nagano" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-tokyo"></div></div>
+            <div class="zone-name">Tokyo</div><div class="zone-dates">25 Ene – 1 Feb</div>
+            <ul class="zone-acts"><li>Senso-ji · Akihabara</li><li>Mario Kart callejero</li><li>Tsukiji · Harajuku · café nutrias</li><li>Meiji Jingu · Shibuya · Odaiba + Gundam</li><li>Mt. Fuji · Observatorio TMG</li></ul>
+            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-tokyo" data-place="Tokyo" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-tokyo"></div></div>
+          </div>
+        </div>
+        <div class="zone-card">
+          <div class="zone-img-wrap"><img class="zone-img"
+            src="https://images.unsplash.com/photo-1566041060517-e2c63f6d1c12?w=600&q=80&auto=format&fit=crop"
+            onerror="this.src='https://images.unsplash.com/photo-1579952636169-2b7e6e536127?w=600&q=80&auto=format&fit=crop'"
+            alt="Nagano" loading="lazy" onclick="openLb(this.src,'Monos en onsen, Nagano')"><div class="zoom-hint">Ver foto</div></div>
+          <div class="zone-body">
+            <div class="zone-name">Nagano</div><div class="zone-dates">Daytrip desde Tokyo</div>
+            <ul class="zone-acts"><li>Monos en onsen · Jigokudani</li><li>Zenkoji · templo milenario</li><li>Paisaje nevado de los Alpes japoneses</li><li>1h30 desde Tokyo en Shinkansen</li></ul>
+            <div class="rating-section"><div class="rating-label">Tu puntuación</div><div class="stars" id="stars-nagano" data-place="Nagano" data-country="Japón 🇯🇵"></div><div class="rating-saved" id="saved-nagano"></div></div>
           </div>
         </div>
       </div>
@@ -1188,6 +1211,7 @@ footer span{color:var(--gold);}
   </div>
 </div>
 
+
 <!-- DIARIO -->
 <div class="sw" id="diario">
   <p class="sec-label">Memorias en tiempo real</p>
@@ -1269,6 +1293,189 @@ footer span{color:var(--gold);}
 <footer>
   <p>Asia '26–27 · <span>Bali · Tailandia · Japón</span> · 37 días · 3 países · infinitas memorias</p>
 </footer>
+
+<!-- PREPARACION Y MONEDA — solo visible para editores -->
+<div class="sw" id="preparacion" style="display:none;">
+  <p class="sec-label">Solo para el grupo viajero</p>
+  <h2 class="sec-title">Preparacion<br>del viaje</h2>
+
+  <div class="prep-grid">
+
+    <!-- COLUMNA IZQUIERDA: CHECKLIST -->
+    <div>
+      <div class="prep-col-title">Checklist <span id="prep-counter">0 / 0 completados</span></div>
+      <div class="prep-progress-label"><span id="prep-pct-text">0% listo</span></div>
+      <div class="prep-progress"><div class="prep-progress-bar" id="prep-bar" style="width:0%"></div></div>
+
+      <!-- DOCUMENTOS -->
+      <div class="prep-category">
+        <span class="prep-cat-label">Documentos y visas</span>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_pasaporte">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Verificar vigencia del pasaporte</div><div class="prep-item-sub">Debe tener al menos 6 meses de validez desde la fecha de regreso</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_visa_bali">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Visa Bali (Visa on Arrival)</div><div class="prep-item-sub">Se puede comprar online en molina.imigrasi.go.id — USD 35 · 30 días</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_visa_thai">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Visa Tailandia (TDAC)</div><div class="prep-item-sub">Permiso de 60 días. Tramitar en consulado o en línea antes de viajar</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_visa_japon">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Visa Japón</div><div class="prep-item-sub">Chile tiene exención de visa para estancias de hasta 90 días</div></div>
+        </div>
+      </div>
+
+      <!-- TRANSPORTE -->
+      <div class="prep-category">
+        <span class="prep-cat-label">Transporte</span>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_vuelos_internos">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Confirmar vuelos internos</div><div class="prep-item-sub">Bali → Bangkok, Bangkok → Osaka</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_grab">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Instalar Grab y Gojek</div><div class="prep-item-sub">Apps de transporte esenciales en Bali y Tailandia</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_suica">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Activar Suica o IC Card (Japón)</div><div class="prep-item-sub">Se puede agregar a Apple Wallet o Google Pay antes de llegar</div></div>
+        </div>
+      </div>
+
+      <!-- SALUD -->
+      <div class="prep-category">
+        <span class="prep-cat-label">Salud y seguro</span>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_seguro">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Contratar seguro de viaje</div><div class="prep-item-sub">Cobertura médica + cancelación para toda la duración del viaje</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_vacunas">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Revisar vacunas recomendadas</div><div class="prep-item-sub">Hepatitis A/B, tifoidea, dengue (consultar con médico)</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_medicamentos">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Botiquin de viaje</div><div class="prep-item-sub">Antidiarreicos, analgésicos, antihistamínicos, repelente DEET</div></div>
+        </div>
+      </div>
+
+      <!-- DINERO -->
+      <div class="prep-category">
+        <span class="prep-cat-label">Dinero y conectividad</span>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_wise">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Abrir cuenta Wise o Revolut</div><div class="prep-item-sub">Mejor cambio de moneda y retiros en ATM sin comisión</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_efectivo">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Llevar efectivo USD para emergencias</div><div class="prep-item-sub">~USD 200-300 por persona. Cambiar a moneda local al llegar</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_sim">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">SIM internacional o eSIM</div><div class="prep-item-sub">Airalo o Holafly funcionan en los 3 países. Activar antes de salir</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_banco">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Avisar al banco sobre el viaje</div><div class="prep-item-sub">Para evitar bloqueos al usar la tarjeta en el extranjero</div></div>
+        </div>
+      </div>
+
+      <!-- EQUIPAJE -->
+      <div class="prep-category">
+        <span class="prep-cat-label">Equipaje esencial</span>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_adaptador">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Adaptador de enchufes universal</div><div class="prep-item-sub">Bali usa tipo C/F · Tailandia A/B/C · Japón tipo A</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_banco_energia">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Power bank de al menos 20.000 mAh</div><div class="prep-item-sub">Indispensable para los dias de actividades largas</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_ropa">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Ropa para clima caluroso y frio</div><div class="prep-item-sub">Bali/Thai: verano. Japón enero: frio intenso, capas necesarias</div></div>
+        </div>
+        <div class="prep-item" onclick="togglePrep(this)" data-key="prep_camara">
+          <div class="prep-check"></div>
+          <div><div class="prep-item-text">Llevar camara</div><div class="prep-item-sub">Cargar batería extra, tarjetas SD de repuesto y estuche impermeable</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: MONEDA -->
+    <div>
+      <div class="prep-col-title">Cambio de moneda</div>
+      <div class="currency-grid">
+        <div class="currency-card c-idr">
+          <div class="currency-flag">🇮🇩</div>
+          <div class="currency-name">Indonesia · IDR</div>
+          <div class="currency-rate" id="rate-idr">—</div>
+          <div class="currency-sub">Rupias por 1 USD</div>
+          <div class="currency-tip">Cambiar en money changers oficiales en Canggu o Ubud. Evitar aeropuerto. ATM tiene limite ~3M IDR</div>
+        </div>
+        <div class="currency-card c-thb">
+          <div class="currency-flag">🇹🇭</div>
+          <div class="currency-name">Tailandia · THB</div>
+          <div class="currency-rate" id="rate-thb">—</div>
+          <div class="currency-sub">Bahts por 1 USD</div>
+          <div class="currency-tip">SuperRich y Superstar son los mejores changers en Bangkok. ATM cobra ~220 THB de comision</div>
+        </div>
+        <div class="currency-card c-jpy">
+          <div class="currency-flag">🇯🇵</div>
+          <div class="currency-name">Japón · JPY</div>
+          <div class="currency-rate" id="rate-jpy">—</div>
+          <div class="currency-sub">Yenes por 1 USD</div>
+          <div class="currency-tip">Japón es mayormente efectivo. 7-Eleven y Post Office ATM aceptan tarjetas extranjeras sin problema</div>
+        </div>
+      </div>
+      <div class="currency-updated" id="rates-updated">Cargando tasas...</div>
+      <div class="currency-converter">
+        <div class="converter-title">Conversor rapido</div>
+        <div class="converter-row">
+          <input type="number" class="converter-input" id="conv-amount" value="100" oninput="updateConverter()" placeholder="Monto">
+          <select class="converter-select" id="conv-from" onchange="updateConverter()">
+            <option value="USD">USD</option>
+            <option value="CLP">CLP</option>
+            <option value="IDR">IDR</option>
+            <option value="THB">THB</option>
+            <option value="JPY">JPY</option>
+          </select>
+          <span class="converter-arrow">→</span>
+          <select class="converter-select" id="conv-to" onchange="updateConverter()">
+            <option value="IDR">IDR</option>
+            <option value="THB">THB</option>
+            <option value="JPY">JPY</option>
+            <option value="USD">USD</option>
+            <option value="CLP">CLP</option>
+          </select>
+        </div>
+        <div style="margin-top:.9rem;">
+          <div class="converter-result" id="conv-result">—</div>
+          <div class="converter-result-sub" id="conv-result-sub"></div>
+        </div>
+      </div>
+      <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.6rem;">
+        <div style="background:#fff;border-radius:12px;padding:1rem 1.1rem;border:1.5px solid var(--warm);">
+          <div style="font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.35);font-weight:600;margin-bottom:.5rem;">Cuanto llevar en efectivo</div>
+          <div style="display:flex;flex-direction:column;gap:.4rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.83rem;color:var(--ink);">Bali (10 días)</span><span style="font-size:.83rem;font-weight:600;color:var(--bali);">~USD 300–400</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.83rem;color:var(--ink);">Tailandia (14 días)</span><span style="font-size:.83rem;font-weight:600;color:var(--thai);">~USD 400–600</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.83rem;color:var(--ink);">Japón (13 días)</span><span style="font-size:.83rem;font-weight:600;color:var(--japan);">~USD 500–800</span></div>
+            <div style="height:1px;background:var(--warm);margin:.2rem 0;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.83rem;font-weight:600;color:var(--ink);">Total estimado</span><span style="font-size:.88rem;font-weight:700;color:var(--ember);">~USD 1.200–1.800</span></div>
+          </div>
+        </div>
+        <div style="background:var(--sand);border-radius:12px;padding:.9rem 1.1rem;font-size:.78rem;color:rgba(0,0,0,.55);line-height:1.5;">
+          Usa <strong>Wise o Revolut</strong> para transferencias y pagos con tarjeta. Guarda el efectivo para mercados, tuk-tuks y lugares sin POS.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLb(event)">
@@ -1652,6 +1859,50 @@ footer span{color:var(--gold);}
 
 <!-- Leaflet CSS scope fix -->
 <style>
+/* ── PREPARACION ── */
+.prep-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.8rem;}
+@media(max-width:700px){.prep-grid{grid-template-columns:1fr;gap:1.2rem;}}
+.prep-col-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--warm);}
+.prep-col-title span{font-size:.7rem;font-family:'DM Sans',sans-serif;font-weight:400;color:rgba(0,0,0,.35);margin-left:.5rem;letter-spacing:.08em;text-transform:uppercase;}
+.prep-category{margin-bottom:1.2rem;}
+.prep-cat-label{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(0,0,0,.35);font-weight:600;margin-bottom:.45rem;display:block;}
+.prep-item{display:flex;align-items:flex-start;gap:.65rem;padding:.5rem .7rem;border-radius:10px;cursor:pointer;transition:background .15s;margin-bottom:.2rem;border:1.5px solid transparent;}
+.prep-item:hover{background:var(--warm);}
+.prep-item.done-item{opacity:.55;}
+.prep-item.done-item .prep-item-text{text-decoration:line-through;color:rgba(0,0,0,.35);}
+.prep-check{width:18px;height:18px;border-radius:5px;border:2px solid var(--warm);background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;transition:all .18s;margin-top:1px;}
+.prep-item.done-item .prep-check{background:var(--moss);border-color:var(--moss);color:#fff;}
+.prep-item-text{font-size:.87rem;line-height:1.35;color:var(--ink);}
+.prep-item-sub{font-size:.73rem;color:rgba(0,0,0,.4);margin-top:.12rem;}
+.prep-progress{height:5px;background:var(--warm);border-radius:3px;margin-bottom:1.2rem;overflow:hidden;}
+.prep-progress-bar{height:100%;background:var(--moss);border-radius:3px;transition:width .4s ease;}
+.prep-progress-label{font-size:.72rem;color:rgba(0,0,0,.4);margin-bottom:.4rem;display:flex;justify-content:space-between;}
+
+/* ── MONEDA ── */
+.currency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;}
+@media(max-width:600px){.currency-grid{grid-template-columns:1fr;}}
+.currency-card{background:#fff;border-radius:16px;padding:1.2rem;border:1.5px solid var(--warm);position:relative;overflow:hidden;}
+.currency-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.currency-card.c-idr::before{background:var(--bali);}
+.currency-card.c-thb::before{background:var(--thai);}
+.currency-card.c-jpy::before{background:var(--japan);}
+.currency-flag{font-size:1.4rem;margin-bottom:.4rem;}
+.currency-name{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.35);font-weight:600;margin-bottom:.15rem;}
+.currency-rate{font-size:1.5rem;font-weight:700;color:var(--ink);font-family:'Playfair Display',serif;line-height:1;}
+.currency-sub{font-size:.72rem;color:rgba(0,0,0,.4);margin-top:.2rem;}
+.currency-tip{margin-top:.75rem;padding:.55rem .75rem;background:var(--sand);border-radius:8px;font-size:.75rem;color:rgba(0,0,0,.55);line-height:1.4;}
+.currency-updated{font-size:.68rem;color:rgba(0,0,0,.25);text-align:right;margin-top:.8rem;}
+.currency-converter{background:#fff;border-radius:16px;padding:1.4rem;border:1.5px solid var(--warm);margin-top:1rem;}
+.converter-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.35);font-weight:600;margin-bottom:.9rem;}
+.converter-row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.converter-input{font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--ink);background:var(--sand);border:1.5px solid transparent;border-radius:10px;padding:.55rem .9rem;width:120px;outline:none;transition:border-color .2s;}
+.converter-input:focus{border-color:var(--gold);}
+.converter-select{font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--ink);background:var(--sand);border:1.5px solid transparent;border-radius:10px;padding:.55rem .9rem;outline:none;cursor:pointer;transition:border-color .2s;}
+.converter-select:focus{border-color:var(--gold);}
+.converter-arrow{color:var(--gold);font-size:1.1rem;font-weight:700;}
+.converter-result{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ink);font-weight:700;min-width:140px;}
+.converter-result-sub{font-size:.72rem;color:rgba(0,0,0,.4);margin-top:.1rem;}
+
 #travel-map{width:100%;height:500px;border-radius:18px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.18);border:1px solid rgba(0,0,0,.07);}
 #travel-map img{max-width:none!important;box-shadow:none!important;border:none!important;}
 .map-tooltip-custom{background:rgba(26,20,16,.92)!important;border:1px solid rgba(212,168,83,.5)!important;color:#fff!important;font-family:"DM Sans",sans-serif!important;font-size:11px!important;font-weight:600!important;padding:3px 9px!important;border-radius:7px!important;white-space:nowrap!important;box-shadow:0 2px 10px rgba(0,0,0,.35)!important;letter-spacing:.03em!important;}
@@ -1785,16 +2036,18 @@ function setRating(id,val){
   }
 }
 var PLACES=[
-  {id:'canggu',   place:'Canggu',        country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
-  {id:'ubud',     place:'Ubud',          country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
-  {id:'nusa',     place:'Nusa Penida',   country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
-  {id:'bangkok',  place:'Bangkok',       country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
-  {id:'chiangmai',place:'Chiang Mai',    country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
-  {id:'phuket',   place:'Phuket',        country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
-  {id:'krabi',    place:'Krabi',         country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
-  {id:'osaka',    place:'Osaka',         country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
-  {id:'kyoto',    place:'Kyoto + Nara',  country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
-  {id:'tokyo',    place:'Tokyo + Nagano',country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
+  {id:'canggu',   place:'Canggu',      country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
+  {id:'ubud',     place:'Ubud',        country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
+  {id:'nusa',     place:'Nusa Penida', country:'Bali \uD83C\uDDEE\uD83C\uDDE9'},
+  {id:'bangkok',  place:'Bangkok',     country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
+  {id:'chiangmai',place:'Chiang Mai',  country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
+  {id:'phuket',   place:'Phuket',      country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
+  {id:'krabi',    place:'Krabi',       country:'Tailandia \uD83C\uDDF9\uD83C\uDDED'},
+  {id:'osaka',    place:'Osaka',       country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
+  {id:'kyoto',    place:'Kyoto',       country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
+  {id:'nara',     place:'Nara',        country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
+  {id:'tokyo',    place:'Tokyo',       country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
+  {id:'nagano',   place:'Nagano',      country:'Jap\u00F3n \uD83C\uDDEF\uD83C\uDDF5'},
 ];
 PLACES.forEach(function(p){renderStars(p.id,{});});
 document.addEventListener('firebase-ready',function(){
@@ -2366,6 +2619,11 @@ function updateNavUser(user){
     if(navLogout)  navLogout.style.display='none';
     if(navUpgrade) navUpgrade.style.display='none';
     if(navMsg)     navMsg.style.display='none';
+    // Ocultar preparacion
+    var prepSection = document.getElementById('preparacion');
+    var prepBtn     = document.getElementById('nav-prep-btn');
+    if(prepSection) prepSection.style.display='none';
+    if(prepBtn)     prepBtn.style.display='none';
     // Reset avatar
     var inner = document.getElementById('nav-av-inner');
     if(inner) inner.textContent = '?';
@@ -2378,17 +2636,26 @@ function updateNavUser(user){
 
 
 function updateUIForRole(role){
+  var prepSection = document.getElementById('preparacion');
+  var prepBtn     = document.getElementById('nav-prep-btn');
   if(role==='editor'){
     removeLocks();
     var upBtn=document.getElementById('nav-upgrade-btn');
     if(upBtn) upBtn.style.display='none';
+    // Mostrar sección y botón de preparacion
+    if(prepSection) prepSection.style.display='block';
+    if(prepBtn)     prepBtn.style.display='inline-block';
+    // Cargar tasas si aún no se han cargado
+    setTimeout(loadExchangeRates, 300);
   } else {
     addLocks();
-    // Show upgrade button for logged-in viewers
     if(window._currentUser){
       var upBtn=document.getElementById('nav-upgrade-btn');
       if(upBtn) upBtn.style.display='inline-block';
     }
+    // Ocultar sección y botón de preparacion para viewers
+    if(prepSection) prepSection.style.display='none';
+    if(prepBtn)     prepBtn.style.display='none';
   }
 }
 
@@ -2859,6 +3126,150 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
+// ── PREPARACION: CHECKLIST ──
+var _prepChecks = {};
+var _prepUnsub = null;
+
+var PREP_ITEMS = [
+  'prep_pasaporte','prep_visa_bali','prep_visa_thai','prep_visa_japon',
+  'prep_vuelos_internos','prep_grab','prep_suica',
+  'prep_seguro','prep_vacunas','prep_medicamentos',
+  'prep_wise','prep_efectivo','prep_sim','prep_banco',
+  'prep_adaptador','prep_banco_energia','prep_ropa','prep_camara'
+];
+
+function togglePrep(el){
+  var key = el.dataset.key;
+  if(!key) return;
+  var done = !el.classList.contains('done-item');
+  // Optimistic UI
+  el.classList.toggle('done-item', done);
+  el.querySelector('.prep-check').textContent = done ? '✓' : '';
+  updatePrepProgress();
+  // Guardar en Firestore (coleccion checklist)
+  if(window._fb && window._fb.saveChecklist){
+    window._fb.saveChecklist(key, done);
+  } else {
+    // fallback localStorage
+    try{
+      var s = JSON.parse(localStorage.getItem('prep_checks')||'{}');
+      s[key] = done;
+      localStorage.setItem('prep_checks', JSON.stringify(s));
+    }catch(e){}
+  }
+}
+
+function updatePrepProgress(){
+  var total = document.querySelectorAll('.prep-item[data-key]').length;
+  var done  = document.querySelectorAll('.prep-item.done-item').length;
+  var pct   = total ? Math.round((done/total)*100) : 0;
+  var bar   = document.getElementById('prep-bar');
+  var lbl   = document.getElementById('prep-counter');
+  var pctTxt= document.getElementById('prep-pct-text');
+  if(bar)   bar.style.width = pct + '%';
+  if(lbl)   lbl.textContent = done + ' / ' + total + ' completados';
+  if(pctTxt)pctTxt.textContent = pct + '% listo';
+}
+
+function applyPrepChecks(checks){
+  _prepChecks = checks || {};
+  document.querySelectorAll('.prep-item[data-key]').forEach(function(el){
+    var done = !!_prepChecks[el.dataset.key];
+    el.classList.toggle('done-item', done);
+    var chk = el.querySelector('.prep-check');
+    if(chk) chk.textContent = done ? '✓' : '';
+  });
+  updatePrepProgress();
+}
+
+// Cargar checks al entrar en la sección
+document.addEventListener('firebase-ready', function(){
+  if(window._fb && window._fb.listenChecklist && !_prepUnsub){
+    _prepUnsub = window._fb.listenChecklist(function(checks){
+      applyPrepChecks(checks);
+    });
+  } else {
+    // fallback localStorage
+    try{
+      applyPrepChecks(JSON.parse(localStorage.getItem('prep_checks')||'{}'));
+    }catch(e){}
+  }
+});
+
+// ── PREPARACION: TASAS DE CAMBIO ──
+var _rates = { USD:1, CLP:950, IDR:16200, THB:35, JPY:155 };
+var _ratesLoaded = false;
+
+function loadExchangeRates(){
+  if(_ratesLoaded) return;
+  // API gratuita sin key: exchangerate-api
+  fetch('https://api.exchangerate-api.com/v4/latest/USD')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if(!data.rates) return;
+      _rates.IDR = Math.round(data.rates.IDR || 16200);
+      _rates.THB = +(data.rates.THB || 35).toFixed(2);
+      _rates.JPY = Math.round(data.rates.JPY || 155);
+      _rates.CLP = Math.round(data.rates.CLP || 950);
+      _ratesLoaded = true;
+      // Mostrar en cards
+      var idrEl = document.getElementById('rate-idr');
+      var thbEl = document.getElementById('rate-thb');
+      var jpyEl = document.getElementById('rate-jpy');
+      var upd   = document.getElementById('rates-updated');
+      if(idrEl) idrEl.textContent = _rates.IDR.toLocaleString('es-CL');
+      if(thbEl) thbEl.textContent = _rates.THB.toFixed(2);
+      if(jpyEl) jpyEl.textContent = _rates.JPY.toLocaleString('es-CL');
+      if(upd)   upd.textContent = 'Actualizado: ' + new Date().toLocaleDateString('es-CL', {day:'2-digit',month:'short',year:'numeric'});
+      updateConverter();
+    })
+    .catch(function(){
+      // Fallback con tasas aproximadas
+      var upd = document.getElementById('rates-updated');
+      var idrEl = document.getElementById('rate-idr');
+      var thbEl = document.getElementById('rate-thb');
+      var jpyEl = document.getElementById('rate-jpy');
+      if(idrEl) idrEl.textContent = '16.200';
+      if(thbEl) thbEl.textContent = '35.00';
+      if(jpyEl) jpyEl.textContent = '155';
+      if(upd)   upd.textContent = 'Tasas aproximadas — sin conexion';
+      updateConverter();
+    });
+}
+
+function updateConverter(){
+  var amountEl = document.getElementById('conv-amount');
+  var fromEl   = document.getElementById('conv-from');
+  var toEl     = document.getElementById('conv-to');
+  var resultEl = document.getElementById('conv-result');
+  var subEl    = document.getElementById('conv-result-sub');
+  if(!amountEl||!fromEl||!toEl||!resultEl) return;
+  var amount = parseFloat(amountEl.value) || 0;
+  var from = fromEl.value;
+  var to   = toEl.value;
+  if(from === to){ resultEl.textContent = amount.toLocaleString('es-CL'); if(subEl) subEl.textContent = ''; return; }
+  // Convertir a USD primero, luego a destino
+  var inUSD   = amount / (_rates[from] || 1);
+  var result  = inUSD * (_rates[to] || 1);
+  // Formatear según moneda
+  var fmtResult;
+  if(to === 'JPY' || to === 'IDR' || to === 'CLP'){
+    fmtResult = Math.round(result).toLocaleString('es-CL');
+  } else {
+    fmtResult = result.toFixed(2);
+  }
+  resultEl.textContent = fmtResult + ' ' + to;
+  // Tasa unitaria
+  var unit = (_rates[to]||1) / (_rates[from]||1);
+  var unitFmt = (to==='JPY'||to==='IDR'||to==='CLP') ? Math.round(unit).toLocaleString('es-CL') : unit.toFixed(4);
+  if(subEl) subEl.textContent = '1 ' + from + ' = ' + unitFmt + ' ' + to;
+}
+
+// Cargar tasas cuando el usuario navega a la sección
+(function(){
+  var origGoTo = window.goTo;
+})();
+
 // ── MAPA ──
 var mapInitialized = false;
 var _leafletMap = null;
@@ -2988,6 +3399,9 @@ function goTo(id,btn){
       initTravelMap();
       if(_leafletMap) _leafletMap.invalidateSize();
     }, 350);
+  }
+  if(id==='preparacion'){
+    setTimeout(loadExchangeRates, 200);
   }
 }
 var NAV_IDS=['resumen','destinos','itinerario','vuelos','mapa','alojamientos','diario'];
